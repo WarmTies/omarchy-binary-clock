@@ -105,13 +105,9 @@ For `21:36`, the four columns therefore represent:
 
 Binary Clock is installed using Omarchy's plugin system.
 
-After cloning or publishing this repository, use its HTTPS Git URL:
-
 ```bash
-omarchy plugin add <repository-url> --enable
+omarchy plugin add https://github.com/WarmTies/omarchy-binary-clock.git --enable
 ```
-
-For example, copy the repository's **HTTPS clone URL** from GitHub and use it directly with `omarchy plugin add`.
 
 The plugin ID is:
 
