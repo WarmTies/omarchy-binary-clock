@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "binaryclock.clock",
+  "name": "Binary Clock",
+  "version": "1.0.0",
+  "author": "Vegard Andersen",
+  "description": "A minimal 4x4 binary clock for the Omarchy bar.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Binary Clock",
+    "description": "Minimal 4x4 BCD binary clock",
+    "category": "Time",
+    "allowMultiple": false,
+    "defaultSection": "center"
+  }
+}
