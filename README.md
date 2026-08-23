@@ -4,6 +4,8 @@ A minimal Binary-Coded Decimal (BCD) clock for the Omarchy top bar.
 
 Binary Clock replaces the traditional digital clock with a compact **4 × 4 binary display** showing the current time in hours and minutes.
 
+![Binary Clock preview](preview.png)
+
 ## Features
 
 * 4 × 4 BCD binary clock
