@@ -1,15 +1,15 @@
 import QtQuick
 import Quickshell
+import qs.Commons
+import qs.Ui
 
-Item {
+BarWidget {
   id: root
 
-  property var bar
-  property string moduleName
-  property var settings
+  moduleName: "binaryclock.clock"
 
-  implicitWidth: bar && bar.vertical ? bar.barSize : 38
-  implicitHeight: bar && bar.vertical ? 38 : (bar ? bar.barSize : 26)
+  implicitWidth: vertical ? bar.barSize : 38
+  implicitHeight: vertical ? 38 : bar.barSize
 
   function digit(column) {
     var hour = clock.date.getHours()
@@ -38,33 +38,108 @@ Item {
     precision: SystemClock.Minutes
   }
 
-  Grid {
-    anchors.centerIn: parent
+  // Omarchy calendar panel
+  readonly property bool opened:
+    panelLoader.item ? panelLoader.item.opened === true : false
 
-    columns: 4
-    rows: 4
+  function open() {
+    if (panelLoader.item)
+      panelLoader.item.open()
+  }
 
-    columnSpacing: 2
-    rowSpacing: 2
+  function close() {
+    if (panelLoader.item)
+      panelLoader.item.close()
+  }
 
-    Repeater {
-      model: 16
+  function togglePanel() {
+    if (panelLoader.item)
+      panelLoader.item.toggle()
+  }
 
-      Rectangle {
-        required property int index
+  function closeForPopoutSwitch() {
+    if (panelLoader.item)
+      panelLoader.item.closeForPopoutSwitch()
+  }
 
-        width: 4
-        height: 4
-        radius: 2
+  readonly property bool popoutSwitchClosing:
+    panelLoader.item
+      ? panelLoader.item.popoutSwitchClosing === true
+      : false
 
-        color: root.bar
-          ? root.bar.foreground
-          : "white"
+  function injectPanel() {
+    var target = panelLoader.item
 
-        opacity: root.bitEnabled(index)
-          ? 1.0
-          : 0.18
+    if (!target)
+      return
+
+    if ("bar" in target)
+      target.bar = root.bar
+
+    if ("settings" in target)
+      target.settings = root.settings
+
+    if ("anchorItem" in target)
+      target.anchorItem = clickArea
+
+    if ("hostWidget" in target)
+      target.hostWidget = root
+  }
+
+  onBarChanged: injectPanel()
+  onSettingsChanged: injectPanel()
+
+  Loader {
+    id: panelLoader
+    active: true
+    source: Qt.resolvedUrl("Panel.qml")
+    visible: false
+
+    onLoaded: {
+      root.injectPanel()
+      Qt.callLater(root.injectPanel)
+    }
+  }
+
+  Item {
+    id: clickArea
+    anchors.fill: parent
+
+    Grid {
+      anchors.centerIn: parent
+
+      columns: 4
+      rows: 4
+
+      columnSpacing: 2
+      rowSpacing: 2
+
+      Repeater {
+        model: 16
+
+        Rectangle {
+          required property int index
+
+          width: 4
+          height: 4
+          radius: 2
+
+          color: root.bar
+            ? root.bar.foreground
+            : "white"
+
+          opacity: root.bitEnabled(index)
+            ? 1.0
+            : 0.18
+        }
       }
+    }
+
+    MouseArea {
+      anchors.fill: parent
+      cursorShape: Qt.PointingHandCursor
+
+      onClicked: root.togglePanel()
     }
   }
 }
