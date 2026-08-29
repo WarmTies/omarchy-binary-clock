@@ -14,8 +14,8 @@ Binary Clock replaces the traditional digital clock with a compact **4 × 4 bina
 * Native Omarchy `bar-widget`
 * No external scripts
 * No background processes
-* No date display
-* No calendar popup
+* Calendar popup on click
+* Uses Omarchy's standard calendar panel
 * No seconds
 * No configuration required
 * Designed as a replacement for Omarchy's standard clock
@@ -165,7 +165,9 @@ It displays:
 * four decimal digits
 * four binary rows with the values `8`, `4`, `2`, and `1`
 
-Seconds, dates, calendars and timezone controls are intentionally not included.
+Seconds and timezone controls are intentionally not included.
+
+Clicking the Binary Clock opens Omarchy's standard calendar popup.
 
 ## Plugin Structure
 
@@ -175,6 +177,9 @@ The plugin consists primarily of:
 binaryclock.clock/
 ├── manifest.json
 ├── BarWidget.qml
+├── Panel.qml
+├── Model.js
+├── preview.png
 ├── README.md
 └── LICENSE
 ```
@@ -253,11 +258,10 @@ It does not attempt to reproduce the additional functionality of Omarchy's stand
 
 There is:
 
-* no calendar
-* no date
+* a calendar popup on click
 * no timezone selector
 * no seconds counter
-* no external dependency
+* no external dependencies
 * no background daemon
 
 The goal is a small, clean binary clock that fits naturally into the Omarchy bar.
