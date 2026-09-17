@@ -80,7 +80,7 @@ BarWidget {
       target.settings = root.settings
 
     if ("anchorItem" in target)
-      target.anchorItem = clickArea
+      target.anchorItem = button
 
     if ("hostWidget" in target)
       target.hostWidget = root
@@ -101,45 +101,48 @@ BarWidget {
     }
   }
 
-  Item {
-    id: clickArea
-    anchors.fill: parent
+  WidgetButton {
+  id: button
+  anchors.fill: parent
 
-    Grid {
-      anchors.centerIn: parent
+  bar: root.bar
+  text: ""
+  labelVisible: false
+  hasVisualContent: true
 
-      columns: 4
-      rows: 4
+  onPressed: function(b) {
+    if (b === Qt.LeftButton)
+      root.togglePanel()
+  }
 
-      columnSpacing: 2
-      rowSpacing: 2
+  Grid {
+    anchors.centerIn: parent
 
-      Repeater {
-        model: 16
+    columns: 4
+    rows: 4
 
-        Rectangle {
-          required property int index
+    columnSpacing: 2
+    rowSpacing: 2
 
-          width: 4
-          height: 4
-          radius: 2
+    Repeater {
+      model: 16
 
-          color: root.bar
-            ? root.bar.foreground
-            : "white"
+      Rectangle {
+        required property int index
 
-          opacity: root.bitEnabled(index)
-            ? 1.0
-            : 0.18
-        }
+        width: 4
+        height: 4
+        radius: 2
+
+        color: root.bar
+          ? root.bar.foreground
+          : "white"
+
+        opacity: root.bitEnabled(index)
+          ? 1.0
+          : 0.18
       }
     }
-
-    MouseArea {
-      anchors.fill: parent
-      cursorShape: Qt.PointingHandCursor
-
-      onClicked: root.togglePanel()
-    }
   }
+}
 }
